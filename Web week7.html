@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Animation with Local Storage</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .animated-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease; /* CSS Transition */
+        }
+
+        .animated-button:hover {
+            background-color: #0056b3;
+        }
+
+        .pulsate {
+            animation: pulse 1s infinite alternate; /* CSS Animation */
+        }
+
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.1);
+            }
+        }
+
+        .theme-switcher {
+            display: flex;
+            gap: 10px;
+        }
+
+        .theme-button {
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .dark-theme {
+            background-color: #333;
+            color: #eee;
+        }
+
+        .dark-theme .animated-button {
+            background-color: #555;
+            color: #fff;
+        }
+
+        .dark-theme .animated-button:hover {
+            background-color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Interactive Animation with Theme Persistence</h1>
+
+    <button id="myButton" class="animated-button">Click Me to Pulsate!</button>
+
+    <div class="theme-switcher">
+        <button id="lightTheme" class="theme-button">Light Theme</button>
+        <button id="darkTheme" class="theme-button">Dark Theme</button>
+    </div>
+
+    <script>
+        const button = document.getElementById('myButton');
+        const body = document.body;
+        const lightThemeButton = document.getElementById('lightTheme');
+        const darkThemeButton = document.getElementById('darkTheme');
+        const THEME_KEY = 'userTheme';
+
+        // Function to apply a theme
+        function applyTheme(theme) {
+            body.className = theme === 'dark' ? 'dark-theme' : '';
+            localStorage.setItem(THEME_KEY, theme);
+        }
+
+        // Check for saved theme on load
+        const savedTheme = localStorage.getItem(THEME_KEY);
+        if (savedTheme) {
+            applyTheme(savedTheme);
+        }
+
+        // Event listener to trigger the animation
+        button.addEventListener('click', () => {
+            button.classList.toggle('pulsate');
+        });
+
+        // Event listeners for theme switching
+        lightThemeButton.addEventListener('click', () => {
+            applyTheme('light');
+        });
+
+        darkThemeButton.addEventListener('click', () => {
+            applyTheme('dark');
+        });
+    </script>
+
+</body>
+</html>
